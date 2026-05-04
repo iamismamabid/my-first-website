@@ -1,4 +1,14 @@
+import { useEffect } from 'react';
+
 export default function Home() {
+  useEffect(() => {
+    // This tells your browser to go find your backend
+    fetch('http://localhost:5000/api/health')
+      .then(response => response.json())
+      .then(data => console.log("Message from Backend:", data.message))
+      .catch(err => console.error("Backend not running:", err));
+  }, []);
+
   return (
     <div style={{ padding: '8rem 5%', color: '#ededed', maxWidth: '1000px', margin: '0 auto' }}>
       <span style={{ color: '#10b981', fontFamily: 'monospace', letterSpacing: '0.05em' }}>
