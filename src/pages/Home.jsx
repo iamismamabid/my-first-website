@@ -1,3 +1,81 @@
+
+
+import { useEffect, useState } from 'react'; export default function ProfessionalHome() { const [apiStatus, setApiStatus] = useState('Initializing connection...'); const [isApiOnline, setIsApiOnline] = useState(false); useEffect(() => { fetch('http://localhost:5000/api/health') .th
+
+pasted
+
+what it will look like as webpage
+
+11:19 PM
+V
+
+Connecting to visualize...
+এই হলো তোমার পোর্টফোলিও পেজের preview। কিছু জিনিস লক্ষ্য করো:
+
+যেভাবে দেখাবে:
+
+Navbar-এ স্ট্যাটাস indicator grey দেখাচ্ছে (Offline / Local Mode) — কারণ localhost:5000 তে কোনো backend চলছে না preview-তে। Real environment-এ সবুজ হয়ে "System Operational" দেখাবে।
+Hero section-এ বড় typography, gradient fade effect, এবং দুটো action button সুন্দরভাবে render হচ্ছে।
+দুটো bento card — ⚙️ Advanced Tech Stack এবং 🧠 Generative AI Integration — পাশাপাশি বসেছে।
+একটা ছোট improvement suggestion: "Initiate Contact" বাটনে backdropFilter: blur(10px) আছে কিন্তু এটা শুধু তখনই কাজ করে যখন পেছনে কিছু visual content আছে — hero-তে এটা তেমন effect করবে না। এটা হয়তো বাদ দিলেও চলে।
+
+কোনো section বা styling পরিবর্তন করতে চাইলে বলো!
+
+i need dynamic page
+
+11:21 PM
+কোন ধরনের dynamic feature চাও সেটা একটু বলো!
+
+Q: কোন dynamic features চাও? (Select all that apply)
+A: Animated text / typewriter effect, Scroll animations, Projects section with filter, Skills progress bars
+
+Q: Page-এ আর কোন section add করতে চাও? (Select all that apply)
+A: Projects / Portfolio, Skills & Technologies, Education & Experience, Blog / Articles
+
+11:21 PM
+
+
+এই হলো তোমার full dynamic portfolio! যা যা করা হয়েছে:
+
+Dynamic features:
+
+Typewriter effect — hero-তে "I build..." এর পর phrases cycle করছে (intelligent SaaS → AI pipelines → scalable systems...)
+Scroll animations — প্রতিটা section নিচে scroll করলে fade-up হয়ে আসে
+Project filter — All / AI SaaS / Full Stack / Dev Tools বাটন দিয়ে projects filter হয়
+Skill bars — Skills section visible হলে animated progress bars fill হয়
+নতুন sections:
+
+Projects — তোমার actual projects (IsmamStudio.ai, WordSearchStudio, AI Book Generator)
+Skills — 4 category তে বিভক্ত progress bars
+Education & Experience — timeline layout
+Blog — 3টা article placeholder (তোমার actual topics)
+এটা Next.js-এ নিতে হলে এই widget-এর code টুকু তোমার page.tsx-এ convert করতে হবে — চাইলে সেটাও করে দিতে পারি!
+
+provide me all code
+
+11:23 PM
+প্রথমে frontend design skill পড়ে নিচ্ছি, তারপর পুরো Next.js কোড দেবো।
+
+
+Created 2 files, viewed a file, ran a command
+Created 2 files, viewed a file, ran a command
+
+
+
+import { useEffect, useState } from 'react'; export default function ProfessionalHome() { const [apiStatus, setApiStatus] = useState('Initializing connection...'); const [isApiOnline, setIsApiOnline] = useState(false); useEffect(() => { fetch('http://localhost:5000/api/health') .th
+
+pasted
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Pasted content
+16.24 KB •412 lines
+•
+Formatting may be inconsistent from source
+
 import { useEffect, useState } from 'react';
 
 export default function ProfessionalHome() {
