@@ -1,10 +1,12 @@
 /* Default / Dark Theme */
 :root, [data-theme="dark"] {
-  --bg-main: #050505;
-  --text-primary: #ededed;
+  --bg-main: #030303; /* Deeper, more cinematic black */
+  --text-primary: #fafafa;
   --text-secondary: #a1a1aa;
-  --accent-color: #10b981;
-  --accent-glow: rgba(16, 185, 129, 0.05);
+  --accent-color: #8b5cf6; /* New purple/violet accent */
+  --accent-glow: rgba(139, 92, 246, 0.05);
+  --bg-gradient-start: rgba(28, 28, 36, 1);
+  --bg-gradient-end: rgba(3, 3, 3, 1);
 }
 
 /* Light Theme */
@@ -12,8 +14,10 @@
   --bg-main: #f8fafc;
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --accent-color: #059669; /* Slightly darker emerald for better contrast on light mode */
-  --accent-glow: rgba(5, 150, 105, 0.04);
+  --accent-color: #7c3aed; /* Slightly darker violet for better contrast on light mode */
+  --accent-glow: rgba(124, 58, 237, 0.04);
+  --bg-gradient-start: rgba(243, 244, 246, 1);
+  --bg-gradient-end: rgba(248, 250, 252, 1);
 }
 
 /* Global Reset & Smooth Transition */
@@ -28,9 +32,9 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-image: 
-    radial-gradient(at 0% 0%, var(--accent-glow) 0px, transparent 50%), 
-    radial-gradient(at 100% 0%, var(--accent-glow) 0px, transparent 50%);
+  
+  /* New Cinematic Radial Gradient */
+  background-image: radial-gradient(circle at 50% 0%, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 70%);
   background-attachment: fixed;
   
   /* CRUCIAL FOR PROFESSIONAL FEEL: Smooth transition when switching */
