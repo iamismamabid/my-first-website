@@ -1,10 +1,22 @@
-:root {
+/* Default / Dark Theme */
+:root, [data-theme="dark"] {
   --bg-main: #050505;
   --text-primary: #ededed;
   --text-secondary: #a1a1aa;
   --accent-color: #10b981;
+  --accent-glow: rgba(16, 185, 129, 0.05);
 }
 
+/* Light Theme */
+[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-color: #059669; /* Slightly darker emerald for better contrast on light mode */
+  --accent-glow: rgba(5, 150, 105, 0.04);
+}
+
+/* Global Reset & Smooth Transition */
 * {
   margin: 0;
   padding: 0;
@@ -17,12 +29,10 @@ body {
   font-family: 'Inter', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   background-image: 
-      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.02) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, var(--accent-glow) 0px, transparent 50%), 
+    radial-gradient(at 100% 0%, var(--accent-glow) 0px, transparent 50%);
   background-attachment: fixed;
-}
-
-a {
-  text-decoration: none;
-  transition: all 0.2s ease;
+  
+  /* CRUCIAL FOR PROFESSIONAL FEEL: Smooth transition when switching */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
