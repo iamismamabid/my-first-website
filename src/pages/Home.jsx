@@ -1,488 +1,255 @@
+"use client";
 
+import React, { useEffect, useState, useRef } from 'react';
 
-import { useEffect, useState } from 'react'; export default function ProfessionalHome() { const [apiStatus, setApiStatus] = useState('Initializing connection...'); const [isApiOnline, setIsApiOnline] = useState(false); useEffect(() => { fetch('http://localhost:5000/api/health') .th
+// --- CSS INJECTION FOR ANIMATIONS & HOVER EFFECTS ---
+const GlobalStyles = () => (
+  <style>{`
+    .fade-up-hidden { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .fade-up-visible { opacity: 1; transform: translateY(0); }
+    .glass-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .glass-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3); }
+    .filter-btn { transition: all 0.2s ease; }
+    .filter-btn:hover { background: rgba(255, 255, 255, 0.1); }
+    .filter-btn.active { background: #fafafa; color: #000; }
+    .nav-btn { transition: all 0.3s ease; }
+    .nav-btn:hover { background: #fafafa; color: #000 !important; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .cursor { animation: blink 1s step-end infinite; color: #8b5cf6; }
+  `}</style>
+);
 
-pasted
-
-what it will look like as webpage
-
-11:19 PM
-V
-
-Connecting to visualize...
-এই হলো তোমার পোর্টফোলিও পেজের preview। কিছু জিনিস লক্ষ্য করো:
-
-যেভাবে দেখাবে:
-
-Navbar-এ স্ট্যাটাস indicator grey দেখাচ্ছে (Offline / Local Mode) — কারণ localhost:5000 তে কোনো backend চলছে না preview-তে। Real environment-এ সবুজ হয়ে "System Operational" দেখাবে।
-Hero section-এ বড় typography, gradient fade effect, এবং দুটো action button সুন্দরভাবে render হচ্ছে।
-দুটো bento card — ⚙️ Advanced Tech Stack এবং 🧠 Generative AI Integration — পাশাপাশি বসেছে।
-একটা ছোট improvement suggestion: "Initiate Contact" বাটনে backdropFilter: blur(10px) আছে কিন্তু এটা শুধু তখনই কাজ করে যখন পেছনে কিছু visual content আছে — hero-তে এটা তেমন effect করবে না। এটা হয়তো বাদ দিলেও চলে।
-
-কোনো section বা styling পরিবর্তন করতে চাইলে বলো!
-
-i need dynamic page
-
-11:21 PM
-কোন ধরনের dynamic feature চাও সেটা একটু বলো!
-
-Q: কোন dynamic features চাও? (Select all that apply)
-A: Animated text / typewriter effect, Scroll animations, Projects section with filter, Skills progress bars
-
-Q: Page-এ আর কোন section add করতে চাও? (Select all that apply)
-A: Projects / Portfolio, Skills & Technologies, Education & Experience, Blog / Articles
-
-11:21 PM
-
-
-এই হলো তোমার full dynamic portfolio! যা যা করা হয়েছে:
-
-Dynamic features:
-
-Typewriter effect — hero-তে "I build..." এর পর phrases cycle করছে (intelligent SaaS → AI pipelines → scalable systems...)
-Scroll animations — প্রতিটা section নিচে scroll করলে fade-up হয়ে আসে
-Project filter — All / AI SaaS / Full Stack / Dev Tools বাটন দিয়ে projects filter হয়
-Skill bars — Skills section visible হলে animated progress bars fill হয়
-নতুন sections:
-
-Projects — তোমার actual projects (IsmamStudio.ai, WordSearchStudio, AI Book Generator)
-Skills — 4 category তে বিভক্ত progress bars
-Education & Experience — timeline layout
-Blog — 3টা article placeholder (তোমার actual topics)
-এটা Next.js-এ নিতে হলে এই widget-এর code টুকু তোমার page.tsx-এ convert করতে হবে — চাইলে সেটাও করে দিতে পারি!
-
-provide me all code
-
-11:23 PM
-প্রথমে frontend design skill পড়ে নিচ্ছি, তারপর পুরো Next.js কোড দেবো।
-
-
-Created 2 files, viewed a file, ran a command
-Created 2 files, viewed a file, ran a command
-
-
-
-import { useEffect, useState } from 'react'; export default function ProfessionalHome() { const [apiStatus, setApiStatus] = useState('Initializing connection...'); const [isApiOnline, setIsApiOnline] = useState(false); useEffect(() => { fetch('http://localhost:5000/api/health') .th
-
-pasted
-
-
-
-
-
-Claude is AI and can make mistakes. Please double-check responses.
-Pasted content
-16.24 KB •412 lines
-•
-Formatting may be inconsistent from source
-
-import { useEffect, useState } from 'react';
-
-export default function ProfessionalHome() {
-  const [apiStatus, setApiStatus] = useState('Initializing connection...');
-  const [isApiOnline, setIsApiOnline] = useState(false);
+// --- SCROLL REVEAL COMPONENT ---
+const ScrollReveal = ({ children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/health')
-      .then(response => {
-        if (response.ok) {
-          setApiStatus('System Operational');
-          setIsApiOnline(true);
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .catch(() => {
-        setApiStatus('Offline / Local Mode');
-        setIsApiOnline(false);
-      });
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#030303', // Deeper, more cinematic black
-      backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(28, 28, 36, 1) 0%, rgba(3, 3, 3, 1) 70%)',
-      color: '#fafafa', 
-      fontFamily: '"Inter", system-ui, -apple-system, sans-serif',
-      overflowX: 'hidden'
-    }}>
-      
-      {/* Floating Glass Navbar */}
-      <div style={{ padding: '2rem 5%', position: 'sticky', top: 0, zIndex: 50 }}>
-        <nav style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '1rem 2rem', 
-          backgroundColor: 'rgba(15, 15, 15, 0.4)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          borderRadius: '24px',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
-        }}>
-          <div style={{ fontWeight: '800', letterSpacing: '-0.05em', fontSize: '1.25rem' }}>
-            IA<span style={{ color: '#8b5cf6' }}>.</span>
-          </div>
-          
-          {/* Premium Status Indicator */}
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#a1a1aa', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <span style={{ 
-              width: '6px', height: '6px', borderRadius: '50%', 
-              backgroundColor: isApiOnline ? '#10b981' : '#52525b',
-              boxShadow: isApiOnline ? '0 0 12px rgba(16, 185, 129, 0.6)' : 'none',
-              transition: 'all 0.3s ease'
-            }}></span>
-            {apiStatus}
-          </div>
-        </nav>
-      </div>
-
-      {/* Cinematic Hero Section */}
-      <main style={{ padding: '6rem 5% 8rem', maxWidth: '1200px', margin: '0 auto' }}>
-        
-        {/* Animated Context Pill */}
-        <div style={{ 
-          display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
-          padding: '0.5rem 1.25rem', backgroundColor: 'rgba(255, 255, 255, 0.03)', 
-          border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '999px', 
-          fontSize: '0.875rem', color: '#d4d4d8', marginBottom: '2.5rem',
-          boxShadow: 'inset 0 0 20px rgba(255, 255, 255, 0.02)'
-        }}>
-          <span style={{ color: '#8b5cf6', fontSize: '1rem', lineHeight: 1 }}>✧</span> 
-          <span>Developing IsmamStudio.ai</span>
-          <span style={{ width: '1px', height: '12px', backgroundColor: 'rgba(255,255,255,0.2)' }}></span>
-          <span>Available for MS/MSc Opportunities</span>
-        </div>
-
-        {/* Master Class Typography */}
-        <h1 style={{ 
-          fontSize: 'clamp(3.5rem, 9vw, 6.5rem)', 
-          fontWeight: '800', 
-          lineHeight: '1.05', 
-          letterSpacing: '-0.05em', 
-          margin: '0 0 2rem 0' 
-        }}>
-          Software Engineer.<br />
-          <span style={{ 
-            background: 'linear-gradient(135deg, #ffffff 0%, #71717a 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
-            System Architect.
-          </span>
-        </h1>
-
-        <p style={{ 
-          fontSize: 'clamp(1.125rem, 2vw, 1.35rem)', 
-          color: '#a1a1aa', 
-          maxWidth: '800px', 
-          lineHeight: '1.6', 
-          marginBottom: '4rem',
-          fontWeight: '400'
-        }}>
-          I engineer intelligent, highly scalable web systems. Specializing in Next.js 15, TypeScript, and Prisma, I architect robust data pipelines and AI-driven Micro-SaaS platforms designed for high-performance automation.
-        </p>
-
-        {/* Elevated Action Buttons */}
-        <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
-          <a 
-            href="/Ismam_Abid_Resume.pdf" 
-            download="Ismam_Abid_Resume.pdf" 
-            style={{ 
-              padding: '1.25rem 3rem', 
-              backgroundColor: '#ffffff', 
-              color: '#000000', 
-              borderRadius: '12px', 
-              fontWeight: '600', 
-              fontSize: '1rem',
-              textDecoration: 'none', 
-              boxShadow: '0 4px 14px rgba(255, 255, 255, 0.1)',
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '0.75rem' 
-            }}
-          >
-            Download Resume
-            <span style={{ fontSize: '1.2rem' }}>↓</span>
-          </a>
-          <a 
-            href="mailto:ismamabidone@gmail.com" 
-            style={{ 
-              padding: '1.25rem 3rem', 
-              backgroundColor: 'transparent', 
-              color: '#fafafa', 
-              border: '1px solid rgba(255, 255, 255, 0.2)', 
-              borderRadius: '12px', 
-              fontWeight: '600', 
-              fontSize: '1rem',
-              textDecoration: 'none',
-              backdropFilter: 'blur(10px)'
-            }}
-          >
-            Initiate Contact
-          </a>
-        </div>
-
-        {/* Bento Box Expertise Grid */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-          gap: '2rem', 
-          marginTop: '8rem' 
-        }}>
-          
-          {/* Card 1: Architectural Focus */}
-          <div style={{ 
-            padding: '3rem 2rem', 
-            backgroundColor: 'rgba(20, 20, 22, 0.5)', 
-            borderRadius: '24px', 
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.05)'
-          }}>
-            <div style={{ 
-              width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(255,255,255,0.05)', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem'
-            }}>
-              ⚙️
-            </div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem', letterSpacing: '-0.02em' }}>Advanced Tech Stack</h3>
-            <p style={{ color: '#a1a1aa', lineHeight: '1.7', fontSize: '1.05rem' }}>
-              Building robust, type-safe applications with Next.js 15 and TypeScript. Designing complex, highly relational database schemas using Prisma and MongoDB for global-scale data integrity.
-            </p>
-          </div>
-
-          {/* Card 2: AI Focus */}
-          <div style={{ 
-            padding: '3rem 2rem', 
-            backgroundColor: 'rgba(20, 20, 22, 0.5)', 
-            borderRadius: '24px', 
-            border: '1px solid rgba(139, 92, 246, 0.2)',
-            backgroundImage: 'linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, transparent 100%)',
-            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.05)'
-          }}>
-             <div style={{ 
-              width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(139, 92, 246, 0.1)', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem'
-            }}>
-              🧠
-            </div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem', letterSpacing: '-0.02em' }}>Generative AI Integration</h3>
-            <p style={{ color: '#a1a1aa', lineHeight: '1.7', fontSize: '1.05rem' }}>
-              Leveraging the AI SDK, LLMs, and prompt engineering to automate workflows. Building intelligent features for SaaS applications, specifically targeting automated digital publishing solutions.
-            </p>
-          </div>
-
-        </div>
-      </main>
+    <div ref={ref} className={isVisible ? 'fade-up-visible' : 'fade-up-hidden'}>
+      {children}
     </div>
   );
-}import { useEffect, useState } from 'react';
+};
 
 export default function ProfessionalHome() {
   const [apiStatus, setApiStatus] = useState('Initializing connection...');
   const [isApiOnline, setIsApiOnline] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('All');
+  
+  // Typewriter State
+  const [typewriterText, setTypewriterText] = useState('');
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const words = ["intelligent SaaS.", "AI pipelines.", "scalable systems."];
 
+  // API Health Check
   useEffect(() => {
     fetch('http://localhost:5000/api/health')
-      .then(response => {
-        if (response.ok) {
-          setApiStatus('System Operational');
-          setIsApiOnline(true);
-        } else {
-          throw new Error('Network response was not ok');
-        }
+      .then(res => {
+        if (res.ok) { setApiStatus('System Operational'); setIsApiOnline(true); } 
+        else throw new Error('Network error');
       })
-      .catch(() => {
-        setApiStatus('Offline / Local Mode');
-        setIsApiOnline(false);
-      });
+      .catch(() => { setApiStatus('Offline / Local Mode'); setIsApiOnline(false); });
   }, []);
+
+  // Typewriter Effect Logic
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+    const typingSpeed = isDeleting ? 50 : 100;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting && typewriterText === currentWord) {
+        setTimeout(() => setIsDeleting(true), 1500); // Pause at end of word
+      } else if (isDeleting && typewriterText === '') {
+        setIsDeleting(false);
+        setWordIndex((prev) => (prev + 1) % words.length);
+      } else {
+        setTypewriterText(currentWord.substring(0, typewriterText.length + (isDeleting ? -1 : 1)));
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [typewriterText, isDeleting, wordIndex]);
+
+  // Data Objects
+  const projects = [
+    { id: 1, title: 'IsmamStudio.ai', category: 'AI SaaS', tech: 'Next.js 15, Prisma, AI SDK', desc: 'Automated digital publishing and workflow automation platform.' },
+    { id: 2, title: 'WordSearchStudio', category: 'Full Stack', tech: 'React, Node.js, MongoDB', desc: 'Complex algorithmic puzzle generator with global state management.' },
+    { id: 3, title: 'AI Book Generator', category: 'AI SaaS', tech: 'TypeScript, OpenAI API', desc: 'End-to-end pipeline for generating structured literary content.' },
+    { id: 4, title: 'System Logger', category: 'Dev Tools', tech: 'Go, Docker', desc: 'High-performance microservice for distributed logging.' },
+  ];
+
+  const filteredProjects = activeFilter === 'All' ? projects : projects.filter(p => p.category === activeFilter);
 
   return (
     <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#030303', // Deeper, more cinematic black
+      minHeight: '100vh', backgroundColor: '#030303', 
       backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(28, 28, 36, 1) 0%, rgba(3, 3, 3, 1) 70%)',
-      color: '#fafafa', 
-      fontFamily: '"Inter", system-ui, -apple-system, sans-serif',
-      overflowX: 'hidden'
+      color: '#fafafa', fontFamily: '"Inter", system-ui, -apple-system, sans-serif', overflowX: 'hidden'
     }}>
+      <GlobalStyles />
       
-      {/* Floating Glass Navbar */}
+      {/* Navbar */}
       <div style={{ padding: '2rem 5%', position: 'sticky', top: 0, zIndex: 50 }}>
         <nav style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '1rem 2rem', 
-          backgroundColor: 'rgba(15, 15, 15, 0.4)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          borderRadius: '24px',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto',
+          padding: '1rem 2rem', backgroundColor: 'rgba(15, 15, 15, 0.4)', backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '24px', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
         }}>
           <div style={{ fontWeight: '800', letterSpacing: '-0.05em', fontSize: '1.25rem' }}>
             IA<span style={{ color: '#8b5cf6' }}>.</span>
           </div>
-          
-          {/* Premium Status Indicator */}
           <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#a1a1aa', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <span style={{ 
-              width: '6px', height: '6px', borderRadius: '50%', 
-              backgroundColor: isApiOnline ? '#10b981' : '#52525b',
-              boxShadow: isApiOnline ? '0 0 12px rgba(16, 185, 129, 0.6)' : 'none',
-              transition: 'all 0.3s ease'
+              width: '6px', height: '6px', borderRadius: '50%', backgroundColor: isApiOnline ? '#10b981' : '#52525b',
+              boxShadow: isApiOnline ? '0 0 12px rgba(16, 185, 129, 0.6)' : 'none', transition: 'all 0.3s ease'
             }}></span>
             {apiStatus}
           </div>
         </nav>
       </div>
 
-      {/* Cinematic Hero Section */}
-      <main style={{ padding: '6rem 5% 8rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <main style={{ padding: '4rem 5% 8rem', maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* Animated Context Pill */}
-        <div style={{ 
-          display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
-          padding: '0.5rem 1.25rem', backgroundColor: 'rgba(255, 255, 255, 0.03)', 
-          border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '999px', 
-          fontSize: '0.875rem', color: '#d4d4d8', marginBottom: '2.5rem',
-          boxShadow: 'inset 0 0 20px rgba(255, 255, 255, 0.02)'
-        }}>
-          <span style={{ color: '#8b5cf6', fontSize: '1rem', lineHeight: 1 }}>✧</span> 
-          <span>Developing IsmamStudio.ai</span>
-          <span style={{ width: '1px', height: '12px', backgroundColor: 'rgba(255,255,255,0.2)' }}></span>
-          <span>Available for MS/MSc Opportunities</span>
-        </div>
-
-        {/* Master Class Typography */}
-        <h1 style={{ 
-          fontSize: 'clamp(3.5rem, 9vw, 6.5rem)', 
-          fontWeight: '800', 
-          lineHeight: '1.05', 
-          letterSpacing: '-0.05em', 
-          margin: '0 0 2rem 0' 
-        }}>
-          Software Engineer.<br />
-          <span style={{ 
-            background: 'linear-gradient(135deg, #ffffff 0%, #71717a 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
+        {/* HERO SECTION */}
+        <ScrollReveal>
+          <div style={{ 
+            display: 'inline-flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 1.25rem', 
+            backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', 
+            borderRadius: '999px', fontSize: '0.875rem', color: '#d4d4d8', marginBottom: '2.5rem'
           }}>
-            System Architect.
-          </span>
-        </h1>
+            <span style={{ color: '#8b5cf6', fontSize: '1rem' }}>✧</span> 
+            <span>Developing IsmamStudio.ai</span>
+            <span style={{ width: '1px', height: '12px', backgroundColor: 'rgba(255,255,255,0.2)' }}></span>
+            <span>Available for MS/MSc Opportunities</span>
+          </div>
 
-        <p style={{ 
-          fontSize: 'clamp(1.125rem, 2vw, 1.35rem)', 
-          color: '#a1a1aa', 
-          maxWidth: '800px', 
-          lineHeight: '1.6', 
-          marginBottom: '4rem',
-          fontWeight: '400'
-        }}>
-          I engineer intelligent, highly scalable web systems. Specializing in Next.js 15, TypeScript, and Prisma, I architect robust data pipelines and AI-driven Micro-SaaS platforms designed for high-performance automation.
-        </p>
+          <h1 style={{ fontSize: 'clamp(3.5rem, 9vw, 6.5rem)', fontWeight: '800', lineHeight: '1.05', letterSpacing: '-0.05em', margin: '0 0 2rem 0' }}>
+            Software Engineer.<br />
+            <span style={{ background: 'linear-gradient(135deg, #ffffff 0%, #71717a 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              System Architect.
+            </span>
+          </h1>
 
-        {/* Elevated Action Buttons */}
-        <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
-          <a 
-            href="/Ismam_Abid_Resume.pdf" 
-            download="Ismam_Abid_Resume.pdf" 
-            style={{ 
-              padding: '1.25rem 3rem', 
-              backgroundColor: '#ffffff', 
-              color: '#000000', 
-              borderRadius: '12px', 
-              fontWeight: '600', 
-              fontSize: '1rem',
-              textDecoration: 'none', 
-              boxShadow: '0 4px 14px rgba(255, 255, 255, 0.1)',
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '0.75rem' 
-            }}
-          >
-            Download Resume
-            <span style={{ fontSize: '1.2rem' }}>↓</span>
-          </a>
-          <a 
-            href="mailto:ismamabidone@gmail.com" 
-            style={{ 
-              padding: '1.25rem 3rem', 
-              backgroundColor: 'transparent', 
-              color: '#fafafa', 
-              border: '1px solid rgba(255, 255, 255, 0.2)', 
-              borderRadius: '12px', 
-              fontWeight: '600', 
-              fontSize: '1rem',
-              textDecoration: 'none',
-              backdropFilter: 'blur(10px)'
-            }}
-          >
-            Initiate Contact
-          </a>
-        </div>
+          <div style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)', fontWeight: '600', marginBottom: '1.5rem', color: '#e4e4e7', minHeight: '40px' }}>
+            I build <span style={{ color: '#8b5cf6' }}>{typewriterText}</span><span className="cursor">|</span>
+          </div>
 
-        {/* Bento Box Expertise Grid */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-          gap: '2rem', 
-          marginTop: '8rem' 
-        }}>
+          <p style={{ fontSize: 'clamp(1.125rem, 2vw, 1.35rem)', color: '#a1a1aa', maxWidth: '800px', lineHeight: '1.6', marginBottom: '4rem' }}>
+            Specializing in Next.js 15, TypeScript, and Prisma, I architect robust data pipelines and AI-driven Micro-SaaS platforms designed for high-performance automation.
+          </p>
+
+          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
+            <a href="/Ismam_Abid_Resume.pdf" className="nav-btn" style={{ padding: '1.25rem 3rem', backgroundColor: '#ffffff', color: '#000000', borderRadius: '12px', fontWeight: '600', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}>
+              Download Resume <span>↓</span>
+            </a>
+            <a href="mailto:ismamabidone@gmail.com" style={{ padding: '1.25rem 3rem', backgroundColor: 'rgba(255,255,255,0.05)', color: '#fafafa', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', fontWeight: '600', textDecoration: 'none' }}>
+              Initiate Contact
+            </a>
+          </div>
+        </ScrollReveal>
+
+        {/* BENTO BOX EXPERTISE */}
+        <ScrollReveal>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginTop: '8rem' }}>
+            <div className="glass-card" style={{ padding: '3rem 2rem', backgroundColor: 'rgba(20, 20, 22, 0.5)', borderRadius: '24px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem' }}>⚙️</div>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>Advanced Tech Stack</h3>
+              <p style={{ color: '#a1a1aa', lineHeight: '1.7' }}>Building robust, type-safe applications with Next.js 15 and TypeScript. Designing complex schemas using Prisma and MongoDB.</p>
+            </div>
+            <div className="glass-card" style={{ padding: '3rem 2rem', backgroundColor: 'rgba(20, 20, 22, 0.5)', borderRadius: '24px', border: '1px solid rgba(139, 92, 246, 0.2)', backgroundImage: 'linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, transparent 100%)' }}>
+               <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(139, 92, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem' }}>🧠</div>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>Generative AI Integration</h3>
+              <p style={{ color: '#a1a1aa', lineHeight: '1.7' }}>Leveraging the AI SDK and LLMs to automate workflows. Building intelligent features for SaaS specifically targeting digital publishing.</p>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.05)', margin: '6rem 0' }} />
+
+        {/* PROJECTS SECTION */}
+        <ScrollReveal>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem' }}>Featured Works</h2>
           
-          {/* Card 1: Architectural Focus */}
-          <div style={{ 
-            padding: '3rem 2rem', 
-            backgroundColor: 'rgba(20, 20, 22, 0.5)', 
-            borderRadius: '24px', 
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.05)'
-          }}>
-            <div style={{ 
-              width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(255,255,255,0.05)', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem'
-            }}>
-              ⚙️
-            </div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem', letterSpacing: '-0.02em' }}>Advanced Tech Stack</h3>
-            <p style={{ color: '#a1a1aa', lineHeight: '1.7', fontSize: '1.05rem' }}>
-              Building robust, type-safe applications with Next.js 15 and TypeScript. Designing complex, highly relational database schemas using Prisma and MongoDB for global-scale data integrity.
-            </p>
+          {/* Project Filters */}
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
+            {['All', 'AI SaaS', 'Full Stack', 'Dev Tools'].map(filter => (
+              <button 
+                key={filter} 
+                onClick={() => setActiveFilter(filter)}
+                className={`filter-btn ${activeFilter === filter ? 'active' : ''}`}
+                style={{ 
+                  padding: '0.5rem 1.5rem', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)', 
+                  background: activeFilter === filter ? '#fafafa' : 'transparent', 
+                  color: activeFilter === filter ? '#000' : '#fafafa', cursor: 'pointer', fontWeight: '600'
+                }}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
 
-          {/* Card 2: AI Focus */}
-          <div style={{ 
-            padding: '3rem 2rem', 
-            backgroundColor: 'rgba(20, 20, 22, 0.5)', 
-            borderRadius: '24px', 
-            border: '1px solid rgba(139, 92, 246, 0.2)',
-            backgroundImage: 'linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, transparent 100%)',
-            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.05)'
-          }}>
-             <div style={{ 
-              width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(139, 92, 246, 0.1)', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem'
-            }}>
-              🧠
-            </div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem', letterSpacing: '-0.02em' }}>Generative AI Integration</h3>
-            <p style={{ color: '#a1a1aa', lineHeight: '1.7', fontSize: '1.05rem' }}>
-              Leveraging the AI SDK, LLMs, and prompt engineering to automate workflows. Building intelligent features for SaaS applications, specifically targeting automated digital publishing solutions.
-            </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+            {filteredProjects.map(project => (
+              <div key={project.id} className="glass-card" style={{ padding: '2rem', backgroundColor: 'rgba(20, 20, 22, 0.5)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <span style={{ fontSize: '0.75rem', color: '#8b5cf6', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>{project.category}</span>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: '0.5rem 0 1rem 0' }}>{project.title}</h3>
+                <p style={{ color: '#a1a1aa', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>{project.desc}</p>
+                <div style={{ fontSize: '0.85rem', color: '#d4d4d8', padding: '0.5rem', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px' }}>
+                  🛠 {project.tech}
+                </div>
+              </div>
+            ))}
           </div>
+        </ScrollReveal>
 
-        </div>
+        <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.05)', margin: '6rem 0' }} />
+
+        {/* SKILLS SECTION */}
+        <ScrollReveal>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '3rem' }}>Technical Arsenal</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
+            
+            <div>
+              <h3 style={{ fontSize: '1.2rem', color: '#d4d4d8', marginBottom: '1.5rem' }}>Frontend & Frameworks</h3>
+              {[ { name: 'Next.js 15', val: '90%' }, { name: 'React / TypeScript', val: '95%' }, { name: 'Tailwind CSS', val: '85%' } ].map(skill => (
+                <div key={skill.name} style={{ marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                    <span>{skill.name}</span><span style={{ color: '#a1a1aa' }}>{skill.val}</span>
+                  </div>
+                  <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden' }}>
+                    <div style={{ width: skill.val, height: '100%', backgroundColor: '#8b5cf6', borderRadius: '99px', transition: 'width 1.5s ease-out' }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <h3 style={{ fontSize: '1.2rem', color: '#d4d4d8', marginBottom: '1.5rem' }}>Backend & Database</h3>
+              {[ { name: 'Node.js / Express', val: '85%' }, { name: 'Prisma ORM', val: '90%' }, { name: 'MongoDB / PostgreSQL', val: '80%' } ].map(skill => (
+                <div key={skill.name} style={{ marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                    <span>{skill.name}</span><span style={{ color: '#a1a1aa' }}>{skill.val}</span>
+                  </div>
+                  <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden' }}>
+                    <div style={{ width: skill.val, height: '100%', backgroundColor: '#10b981', borderRadius: '99px', transition: 'width 1.5s ease-out' }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </ScrollReveal>
+
       </main>
     </div>
   );
