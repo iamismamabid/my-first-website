@@ -1,13 +1,24 @@
-/* --- Premium "Master Class" Theme Variables --- */
-:root {
-  --surface-bg: rgba(20, 20, 22, 0.4);
-  --surface-hover: rgba(30, 30, 35, 0.6);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-highlight: rgba(139, 92, 246, 0.4); /* Purple accent */
+/* --- Premium "Master Class" Component Variables --- */
+:root, [data-theme="dark"] {
+  --surface-bg: rgba(20, 20, 22, 0.5);
+  --surface-hover: rgba(30, 30, 32, 0.8);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-highlight: rgba(139, 92, 246, 0.4); /* Deep Purple accent */
   --glow-accent: rgba(139, 92, 246, 0.15);
-  --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
   --shadow-premium: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --btn-bg: rgba(255, 255, 255, 0.03);
+  --btn-hover: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] {
+  --surface-bg: rgba(255, 255, 255, 0.6);
+  --surface-hover: rgba(255, 255, 255, 0.9);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-highlight: rgba(124, 58, 237, 0.4); /* Violet accent */
+  --glow-accent: rgba(124, 58, 237, 0.15);
+  --shadow-premium: 0 8px 30px rgba(0, 0, 0, 0.05);
+  --btn-bg: rgba(0, 0, 0, 0.03);
+  --btn-hover: rgba(0, 0, 0, 0.06);
 }
 
 /* --- Counter Button (Upgraded to a sleek pill) --- */
@@ -37,7 +48,8 @@
 
 .counter:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #030303, 0 0 0 4px var(--border-highlight);
+  /* Uses var(--bg-main) to match the background color seamlessly in both modes */
+  box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--border-highlight);
 }
 
 /* --- Hero Section (Added subtle floating animations) --- */
@@ -66,7 +78,7 @@
   width: 170px;
   position: relative;
   z-index: 0;
-  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.05));
+  filter: drop-shadow(0 0 30px var(--glow-accent));
 }
 
 .hero .framework,
@@ -78,7 +90,7 @@
   z-index: 1;
   top: 34px;
   height: 28px;
-  animation: float 6s ease-in-out infinite; /* Added floating effect */
+  animation: float 6s ease-in-out infinite;
 }
 
 .hero .vite {
@@ -117,6 +129,7 @@
   text-align: left;
   overflow: hidden;
   box-shadow: var(--shadow-premium);
+  transition: all 0.3s ease;
 
   & > div {
     flex: 1 1 0;
@@ -168,8 +181,8 @@
     font-size: 0.875rem;
     font-weight: 500;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--btn-bg);
+    border: 1px solid var(--border-subtle);
     display: flex;
     padding: 0.5rem 1rem;
     align-items: center;
@@ -178,7 +191,7 @@
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--btn-hover);
       border-color: var(--border-highlight);
       transform: translateY(-1px);
     }
