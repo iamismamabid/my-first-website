@@ -1,256 +1,275 @@
-"use client";
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+.pf{background:#030303;color:#fafafa;font-family:system-ui,-apple-system,sans-serif;overflow:hidden;border-radius:12px}
+.nav-wrap{padding:1rem 4%;position:sticky;top:0;z-index:50;background:rgba(3,3,3,0.85);backdrop-filter:blur(12px)}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:.6rem 1.25rem;background:rgba(15,15,15,0.5);border:1px solid rgba(255,255,255,0.06);border-radius:18px}
+.logo{font-weight:800;letter-spacing:-.05em;font-size:1.1rem}.logo span{color:#8b5cf6}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{color:#a1a1aa;text-decoration:none;font-size:.82rem;letter-spacing:.02em;cursor:pointer;transition:color .2s}
+.nav-links a:hover{color:#fafafa}
+.status{display:flex;align-items:center;gap:7px;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:#71717a}
+.dot{width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 8px rgba(16,185,129,.5)}
+section{padding:4rem 4%;max-width:1100px;margin:0 auto}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:.35rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:999px;font-size:.78rem;color:#d4d4d8;margin-bottom:1.75rem}
+.pill span.s{color:#8b5cf6}
+.pill-div{width:1px;height:10px;background:rgba(255,255,255,0.2)}
+.hero-h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-.05em;margin-bottom:1.25rem}
+.typed-wrap{display:inline-block;color:#8b5cf6;min-width:320px}
+.cursor{display:inline-block;width:3px;height:.85em;background:#8b5cf6;margin-left:2px;animation:blink 1s step-end infinite;vertical-align:middle}
+@keyframes blink{50%{opacity:0}}
+.hero-sub{font-size:clamp(.9rem,1.4vw,1.05rem);color:#a1a1aa;max-width:600px;line-height:1.65;margin-bottom:2rem}
+.btn-row{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-p{padding:.8rem 1.8rem;background:#fff;color:#000;border-radius:10px;font-weight:600;font-size:.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:7px;cursor:pointer;border:none}
+.btn-s{padding:.8rem 1.8rem;background:transparent;color:#fafafa;border:1px solid rgba(255,255,255,0.2);border-radius:10px;font-weight:600;font-size:.88rem;text-decoration:none;cursor:pointer}
+.sec-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:#8b5cf6;margin-bottom:.5rem}
+.sec-h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-.04em;margin-bottom:2rem}
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+.filter-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.75rem}
+.f-btn{padding:.4rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#a1a1aa;font-size:.8rem;cursor:pointer;transition:all .2s}
+.f-btn.active{background:#8b5cf6;border-color:#8b5cf6;color:#fff}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.proj-card{padding:1.5rem;background:rgba(20,20,22,0.6);border-radius:18px;border:1px solid rgba(255,255,255,0.06);transition:all .3s;cursor:pointer}
+.proj-card:hover{border-color:rgba(139,92,246,.35);transform:translateY(-3px)}
+.proj-card.hidden{display:none}
+.proj-tag{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600;margin-bottom:1rem}
+.tag-ai{background:rgba(139,92,246,.15);color:#a78bfa}
+.tag-fs{background:rgba(16,185,129,.12);color:#34d399}
+.tag-tools{background:rgba(251,146,60,.12);color:#fb923c}
+.proj-title{font-size:1rem;font-weight:700;margin-bottom:.5rem;color:#fafafa}
+.proj-desc{font-size:.85rem;color:#71717a;line-height:1.6;margin-bottom:1rem}
+.proj-stack{display:flex;gap:.4rem;flex-wrap:wrap}
+.stack-pill{padding:.15rem .55rem;background:rgba(255,255,255,.05);border-radius:5px;font-size:.7rem;color:#a1a1aa}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.skill-group h3{font-size:.85rem;font-weight:700;color:#8b5cf6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.25rem}
+.skill-item{margin-bottom:1rem}
+.skill-label{display:flex;justify-content:space-between;font-size:.85rem;color:#d4d4d8;margin-bottom:.4rem}
+.skill-pct{color:#8b5cf6;font-weight:600;font-size:.82rem}
+.bar-bg{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:3px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:rgba(255,255,255,.07)}
+.t-item{position:relative;margin-bottom:2.5rem;padding-left:.75rem}
+.t-dot{position:absolute;left:-1.75rem;top:4px;width:14px;height:14px;border-radius:50%;background:#8b5cf6;border:2px solid #030303;box-shadow:0 0 12px rgba(139,92,246,.5)}
+.t-period{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#8b5cf6;margin-bottom:.3rem}
+.t-role{font-size:1rem;font-weight:700;color:#fafafa;margin-bottom:.2rem}
+.t-org{font-size:.85rem;color:#a1a1aa;margin-bottom:.5rem}
+.t-desc{font-size:.83rem;color:#71717a;line-height:1.6}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.blog-card{padding:1.5rem;background:rgba(20,20,22,0.6);border-radius:18px;border:1px solid rgba(255,255,255,.06);transition:border-color .3s}
+.blog-card:hover{border-color:rgba(255,255,255,.15)}
+.blog-cat{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#8b5cf6;margin-bottom:.5rem}
+.blog-title{font-size:.95rem;font-weight:700;color:#fafafa;margin-bottom:.5rem;line-height:1.4}
+.blog-excerpt{font-size:.82rem;color:#71717a;line-height:1.6;margin-bottom:.9rem}
+.blog-meta{font-size:.75rem;color:#52525b}
+.footer{text-align:center;padding:2.5rem 4%;border-top:1px solid rgba(255,255,255,.05);font-size:.8rem;color:#3f3f46}
+</style>
 
-import React, { useEffect, useState, useRef } from 'react';
+<div class="pf" id="pf">
 
-// --- CSS INJECTION FOR ANIMATIONS & HOVER EFFECTS ---
-const GlobalStyles = () => (
-  <style>{`
-    .fade-up-hidden { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-    .fade-up-visible { opacity: 1; transform: translateY(0); }
-    .glass-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .glass-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3); }
-    .filter-btn { transition: all 0.2s ease; }
-    .filter-btn:hover { background: rgba(255, 255, 255, 0.1); }
-    .filter-btn.active { background: #fafafa; color: #000; }
-    .nav-btn { transition: all 0.3s ease; }
-    .nav-btn:hover { background: #fafafa; color: #000 !important; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    .cursor { animation: blink 1s step-end infinite; color: #8b5cf6; }
-  `}</style>
-);
-
-// --- SCROLL REVEAL COMPONENT ---
-const ScrollReveal = ({ children }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={ref} className={isVisible ? 'fade-up-visible' : 'fade-up-hidden'}>
-      {children}
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="logo">IA<span>.</span></div>
+    <div class="nav-links">
+      <a onclick="scrollTo('projects')">Projects</a>
+      <a onclick="scrollTo('skills')">Skills</a>
+      <a onclick="scrollTo('edu')">Education</a>
+      <a onclick="scrollTo('blog')">Blog</a>
     </div>
-  );
-};
+    <div class="status"><span class="dot"></span>System Operational</div>
+  </nav>
+</div>
 
-export default function ProfessionalHome() {
-  const [apiStatus, setApiStatus] = useState('Initializing connection...');
-  const [isApiOnline, setIsApiOnline] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('All');
-  
-  // Typewriter State
-  const [typewriterText, setTypewriterText] = useState('');
-  const [wordIndex, setWordIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const words = ["intelligent SaaS.", "AI pipelines.", "scalable systems."];
+<section id="hero" style="padding-top:3.5rem">
+  <div class="pill"><span class="s">✧</span><span>Building IsmamStudio.ai</span><span class="pill-div"></span><span>Open to MS/MSc opportunities</span></div>
+  <h1 class="hero-h1">
+    I build<br>
+    <span class="typed-wrap" id="typed"></span><span class="cursor" id="cur"></span>
+  </h1>
+  <p class="hero-sub">Specializing in Next.js 15, TypeScript, and Prisma — engineering AI-driven Micro-SaaS platforms and robust data pipelines for high-performance automation.</p>
+  <div class="btn-row">
+    <a href="/Ismam_Abid_Resume.pdf" class="btn-p" download>Download Resume <i class="ti ti-download" aria-hidden="true" style="font-size:16px"></i></a>
+    <a href="mailto:ismamabidone@gmail.com" class="btn-s">Initiate Contact</a>
+  </div>
+</section>
 
-  // API Health Check
-  useEffect(() => {
-    fetch('http://localhost:5000/api/health')
-      .then(res => {
-        if (res.ok) { setApiStatus('System Operational'); setIsApiOnline(true); } 
-        else throw new Error('Network error');
-      })
-      .catch(() => { setApiStatus('Offline / Local Mode'); setIsApiOnline(false); });
-  }, []);
-
-  // Typewriter Effect Logic
-  useEffect(() => {
-    const currentWord = words[wordIndex];
-    const typingSpeed = isDeleting ? 50 : 100;
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting && typewriterText === currentWord) {
-        setTimeout(() => setIsDeleting(true), 1500); // Pause at end of word
-      } else if (isDeleting && typewriterText === '') {
-        setIsDeleting(false);
-        setWordIndex((prev) => (prev + 1) % words.length);
-      } else {
-        setTypewriterText(currentWord.substring(0, typewriterText.length + (isDeleting ? -1 : 1)));
-      }
-    }, typingSpeed);
-
-    return () => clearTimeout(timeout);
-  }, [typewriterText, isDeleting, wordIndex]);
-
-  // Data Objects
-  const projects = [
-    { id: 1, title: 'IsmamStudio.ai', category: 'AI SaaS', tech: 'Next.js 15, Prisma, AI SDK', desc: 'Automated digital publishing and workflow automation platform.' },
-    { id: 2, title: 'WordSearchStudio', category: 'Full Stack', tech: 'React, Node.js, MongoDB', desc: 'Complex algorithmic puzzle generator with global state management.' },
-    { id: 3, title: 'AI Book Generator', category: 'AI SaaS', tech: 'TypeScript, OpenAI API', desc: 'End-to-end pipeline for generating structured literary content.' },
-    { id: 4, title: 'System Logger', category: 'Dev Tools', tech: 'Go, Docker', desc: 'High-performance microservice for distributed logging.' },
-  ];
-
-  const filteredProjects = activeFilter === 'All' ? projects : projects.filter(p => p.category === activeFilter);
-
-  return (
-    <div style={{ 
-      minHeight: '100vh', backgroundColor: '#030303', 
-      backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(28, 28, 36, 1) 0%, rgba(3, 3, 3, 1) 70%)',
-      color: '#fafafa', fontFamily: '"Inter", system-ui, -apple-system, sans-serif', overflowX: 'hidden'
-    }}>
-      <GlobalStyles />
-      
-      {/* Navbar */}
-      <div style={{ padding: '2rem 5%', position: 'sticky', top: 0, zIndex: 50 }}>
-        <nav style={{ 
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto',
-          padding: '1rem 2rem', backgroundColor: 'rgba(15, 15, 15, 0.4)', backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '24px', boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
-        }}>
-          <div style={{ fontWeight: '800', letterSpacing: '-0.05em', fontSize: '1.25rem' }}>
-            IA<span style={{ color: '#8b5cf6' }}>.</span>
-          </div>
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#a1a1aa', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <span style={{ 
-              width: '6px', height: '6px', borderRadius: '50%', backgroundColor: isApiOnline ? '#10b981' : '#52525b',
-              boxShadow: isApiOnline ? '0 0 12px rgba(16, 185, 129, 0.6)' : 'none', transition: 'all 0.3s ease'
-            }}></span>
-            {apiStatus}
-          </div>
-        </nav>
-      </div>
-
-      <main style={{ padding: '4rem 5% 8rem', maxWidth: '1200px', margin: '0 auto' }}>
-        
-        {/* HERO SECTION */}
-        <ScrollReveal>
-          <div style={{ 
-            display: 'inline-flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 1.25rem', 
-            backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', 
-            borderRadius: '999px', fontSize: '0.875rem', color: '#d4d4d8', marginBottom: '2.5rem'
-          }}>
-            <span style={{ color: '#8b5cf6', fontSize: '1rem' }}>✧</span> 
-            <span>Developing IsmamStudio.ai</span>
-            <span style={{ width: '1px', height: '12px', backgroundColor: 'rgba(255,255,255,0.2)' }}></span>
-            <span>Available for MS/MSc Opportunities</span>
-          </div>
-
-          <h1 style={{ fontSize: 'clamp(3.5rem, 9vw, 6.5rem)', fontWeight: '800', lineHeight: '1.05', letterSpacing: '-0.05em', margin: '0 0 2rem 0' }}>
-            Software Engineer.<br />
-            <span style={{ background: 'linear-gradient(135deg, #ffffff 0%, #71717a 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              System Architect.
-            </span>
-          </h1>
-
-          <div style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)', fontWeight: '600', marginBottom: '1.5rem', color: '#e4e4e7', minHeight: '40px' }}>
-            I build <span style={{ color: '#8b5cf6' }}>{typewriterText}</span><span className="cursor">|</span>
-          </div>
-
-          <p style={{ fontSize: 'clamp(1.125rem, 2vw, 1.35rem)', color: '#a1a1aa', maxWidth: '800px', lineHeight: '1.6', marginBottom: '4rem' }}>
-            Specializing in Next.js 15, TypeScript, and Prisma, I architect robust data pipelines and AI-driven Micro-SaaS platforms designed for high-performance automation.
-          </p>
-
-          <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
-            <a href="/Ismam_Abid_Resume.pdf" className="nav-btn" style={{ padding: '1.25rem 3rem', backgroundColor: '#ffffff', color: '#000000', borderRadius: '12px', fontWeight: '600', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}>
-              Download Resume <span>↓</span>
-            </a>
-            <a href="mailto:ismamabidone@gmail.com" style={{ padding: '1.25rem 3rem', backgroundColor: 'rgba(255,255,255,0.05)', color: '#fafafa', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '12px', fontWeight: '600', textDecoration: 'none' }}>
-              Initiate Contact
-            </a>
-          </div>
-        </ScrollReveal>
-
-        {/* BENTO BOX EXPERTISE */}
-        <ScrollReveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginTop: '8rem' }}>
-            <div className="glass-card" style={{ padding: '3rem 2rem', backgroundColor: 'rgba(20, 20, 22, 0.5)', borderRadius: '24px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem' }}>⚙️</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>Advanced Tech Stack</h3>
-              <p style={{ color: '#a1a1aa', lineHeight: '1.7' }}>Building robust, type-safe applications with Next.js 15 and TypeScript. Designing complex schemas using Prisma and MongoDB.</p>
-            </div>
-            <div className="glass-card" style={{ padding: '3rem 2rem', backgroundColor: 'rgba(20, 20, 22, 0.5)', borderRadius: '24px', border: '1px solid rgba(139, 92, 246, 0.2)', backgroundImage: 'linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, transparent 100%)' }}>
-               <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: 'rgba(139, 92, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', fontSize: '1.5rem' }}>🧠</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>Generative AI Integration</h3>
-              <p style={{ color: '#a1a1aa', lineHeight: '1.7' }}>Leveraging the AI SDK and LLMs to automate workflows. Building intelligent features for SaaS specifically targeting digital publishing.</p>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.05)', margin: '6rem 0' }} />
-
-        {/* PROJECTS SECTION */}
-        <ScrollReveal>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem' }}>Featured Works</h2>
-          
-          {/* Project Filters */}
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
-            {['All', 'AI SaaS', 'Full Stack', 'Dev Tools'].map(filter => (
-              <button 
-                key={filter} 
-                onClick={() => setActiveFilter(filter)}
-                className={`filter-btn ${activeFilter === filter ? 'active' : ''}`}
-                style={{ 
-                  padding: '0.5rem 1.5rem', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.2)', 
-                  background: activeFilter === filter ? '#fafafa' : 'transparent', 
-                  color: activeFilter === filter ? '#000' : '#fafafa', cursor: 'pointer', fontWeight: '600'
-                }}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-            {filteredProjects.map(project => (
-              <div key={project.id} className="glass-card" style={{ padding: '2rem', backgroundColor: 'rgba(20, 20, 22, 0.5)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <span style={{ fontSize: '0.75rem', color: '#8b5cf6', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>{project.category}</span>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '700', margin: '0.5rem 0 1rem 0' }}>{project.title}</h3>
-                <p style={{ color: '#a1a1aa', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>{project.desc}</p>
-                <div style={{ fontSize: '0.85rem', color: '#d4d4d8', padding: '0.5rem', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px' }}>
-                  🛠 {project.tech}
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-
-        <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.05)', margin: '6rem 0' }} />
-
-        {/* SKILLS SECTION */}
-        <ScrollReveal>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '3rem' }}>Technical Arsenal</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
-            
-            <div>
-              <h3 style={{ fontSize: '1.2rem', color: '#d4d4d8', marginBottom: '1.5rem' }}>Frontend & Frameworks</h3>
-              {[ { name: 'Next.js 15', val: '90%' }, { name: 'React / TypeScript', val: '95%' }, { name: 'Tailwind CSS', val: '85%' } ].map(skill => (
-                <div key={skill.name} style={{ marginBottom: '1rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                    <span>{skill.name}</span><span style={{ color: '#a1a1aa' }}>{skill.val}</span>
-                  </div>
-                  <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden' }}>
-                    <div style={{ width: skill.val, height: '100%', backgroundColor: '#8b5cf6', borderRadius: '99px', transition: 'width 1.5s ease-out' }}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div>
-              <h3 style={{ fontSize: '1.2rem', color: '#d4d4d8', marginBottom: '1.5rem' }}>Backend & Database</h3>
-              {[ { name: 'Node.js / Express', val: '85%' }, { name: 'Prisma ORM', val: '90%' }, { name: 'MongoDB / PostgreSQL', val: '80%' } ].map(skill => (
-                <div key={skill.name} style={{ marginBottom: '1rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                    <span>{skill.name}</span><span style={{ color: '#a1a1aa' }}>{skill.val}</span>
-                  </div>
-                  <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden' }}>
-                    <div style={{ width: skill.val, height: '100%', backgroundColor: '#10b981', borderRadius: '99px', transition: 'width 1.5s ease-out' }}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </ScrollReveal>
-
-      </main>
+<section id="projects" class="fade-up">
+  <div class="sec-label">Selected Work</div>
+  <div class="sec-h2">Projects</div>
+  <div class="filter-row">
+    <button class="f-btn active" onclick="filterProj('all',this)">All</button>
+    <button class="f-btn" onclick="filterProj('ai',this)">AI / SaaS</button>
+    <button class="f-btn" onclick="filterProj('fs',this)">Full Stack</button>
+    <button class="f-btn" onclick="filterProj('tools',this)">Dev Tools</button>
+  </div>
+  <div class="proj-grid" id="proj-grid">
+    <div class="proj-card" data-cat="ai">
+      <span class="proj-tag tag-ai">AI / SaaS</span>
+      <div class="proj-title">IsmamStudio.ai</div>
+      <div class="proj-desc">AI-powered KDP book generator — automated content creation, cover design, and publishing pipeline for Amazon KDP Micro-SaaS.</div>
+      <div class="proj-stack"><span class="stack-pill">Next.js 15</span><span class="stack-pill">TypeScript</span><span class="stack-pill">OpenAI</span><span class="stack-pill">Prisma</span></div>
     </div>
-  );
+    <div class="proj-card" data-cat="ai">
+      <span class="proj-tag tag-ai">AI / SaaS</span>
+      <div class="proj-title">WordSearchStudio</div>
+      <div class="proj-desc">Canvas-based word search puzzle generator with drag interaction, AI-assisted word seeding, and bulk export for KDP low-content books.</div>
+      <div class="proj-stack"><span class="stack-pill">React</span><span class="stack-pill">Canvas API</span><span class="stack-pill">MongoDB</span><span class="stack-pill">Node.js</span></div>
+    </div>
+    <div class="proj-card" data-cat="fs">
+      <span class="proj-tag tag-fs">Full Stack</span>
+      <div class="proj-title">AI Book Generator</div>
+      <div class="proj-desc">End-to-end LLM-powered book generation system with chapter structuring, Stripe billing, and automated PDF export for digital publishing.</div>
+      <div class="proj-stack"><span class="stack-pill">Next.js</span><span class="stack-pill">Prisma</span><span class="stack-pill">Stripe</span><span class="stack-pill">MongoDB</span></div>
+    </div>
+    <div class="proj-card" data-cat="tools">
+      <span class="proj-tag tag-tools">Dev Tools</span>
+      <div class="proj-title">CSE 327 AI Solver</div>
+      <div class="proj-desc">Interactive AI coursework toolkit — MiniMax/Alpha-Beta pruning visualizer, Bayesian network calculator, and STRIPS planning debugger.</div>
+      <div class="proj-stack"><span class="stack-pill">Python</span><span class="stack-pill">React</span><span class="stack-pill">D3.js</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="fade-up" style="margin-top:1rem">
+  <div class="sec-label">Technical Proficiency</div>
+  <div class="sec-h2">Skills</div>
+  <div class="skills-grid" id="skills-grid">
+    <div class="skill-group">
+      <h3>Frontend</h3>
+      <div class="skill-item"><div class="skill-label"><span>Next.js / React</span><span class="skill-pct">90%</span></div><div class="bar-bg"><div class="bar-fill" data-w="90"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>TypeScript</span><span class="skill-pct">85%</span></div><div class="bar-bg"><div class="bar-fill" data-w="85"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Tailwind CSS</span><span class="skill-pct">88%</span></div><div class="bar-bg"><div class="bar-fill" data-w="88"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Canvas API</span><span class="skill-pct">75%</span></div><div class="bar-bg"><div class="bar-fill" data-w="75"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <h3>Backend & DB</h3>
+      <div class="skill-item"><div class="skill-label"><span>Node.js / Express</span><span class="skill-pct">82%</span></div><div class="bar-bg"><div class="bar-fill" data-w="82"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Prisma ORM</span><span class="skill-pct">80%</span></div><div class="bar-bg"><div class="bar-fill" data-w="80"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>MongoDB / PostgreSQL</span><span class="skill-pct">78%</span></div><div class="bar-bg"><div class="bar-fill" data-w="78"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>REST / tRPC</span><span class="skill-pct">76%</span></div><div class="bar-bg"><div class="bar-fill" data-w="76"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <h3>AI & Automation</h3>
+      <div class="skill-item"><div class="skill-label"><span>OpenAI / Vercel AI SDK</span><span class="skill-pct">83%</span></div><div class="bar-bg"><div class="bar-fill" data-w="83"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Prompt Engineering</span><span class="skill-pct">87%</span></div><div class="bar-bg"><div class="bar-fill" data-w="87"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>LangChain / RAG</span><span class="skill-pct">65%</span></div><div class="bar-bg"><div class="bar-fill" data-w="65"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <h3>CS Foundations</h3>
+      <div class="skill-item"><div class="skill-label"><span>C / C++</span><span class="skill-pct">80%</span></div><div class="bar-bg"><div class="bar-fill" data-w="80"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Data Structures & Algo</span><span class="skill-pct">78%</span></div><div class="bar-bg"><div class="bar-fill" data-w="78"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>AI / ML Theory</span><span class="skill-pct">72%</span></div><div class="bar-bg"><div class="bar-fill" data-w="72"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="edu" class="fade-up" style="margin-top:1rem">
+  <div class="sec-label">Background</div>
+  <div class="sec-h2">Education & Experience</div>
+  <div class="timeline">
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">2022 – Present</div>
+      <div class="t-role">B.Sc. in Computer Science & Engineering</div>
+      <div class="t-org">North South University, Dhaka</div>
+      <div class="t-desc">Coursework in AI (CSE 327), Algorithms, Databases, and Software Engineering. Active researcher with interest in NLP and intelligent systems.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">2024 – Present</div>
+      <div class="t-role">Independent SaaS Developer</div>
+      <div class="t-org">IsmamStudio.ai — Remote</div>
+      <div class="t-desc">Building AI-powered KDP publishing tools — full-stack from schema design and LLM pipelines to Stripe billing and deployment on Vercel.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">2023</div>
+      <div class="t-role">Full-Stack Development Bootcamp</div>
+      <div class="t-org">Self-directed — The Odin Project / Full Stack Open</div>
+      <div class="t-desc">Intensive 2,600hr roadmap covering React, Node.js, PostgreSQL, Next.js, and AWS. Targeted BookBolt-style SaaS as the capstone project.</div>
+    </div>
+  </div>
+</section>
+
+<section id="blog" class="fade-up" style="margin-top:1rem;padding-bottom:3rem">
+  <div class="sec-label">Writing</div>
+  <div class="sec-h2">Blog / Articles</div>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-cat">AI Engineering</div>
+      <div class="blog-title">How I built an automated KDP book pipeline with GPT-4</div>
+      <div class="blog-excerpt">From prompt chaining to structured output parsing — the full architecture of an LLM-powered publishing engine.</div>
+      <div class="blog-meta">Coming soon &nbsp;·&nbsp; 8 min read</div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-cat">Next.js</div>
+      <div class="blog-title">Fixing MongoDB Atlas connection timeouts in Prisma on Vercel</div>
+      <div class="blog-excerpt">A deep-dive into PrismaClientInitializationError, connection pooling limits, and the serverless cold start problem.</div>
+      <div class="blog-meta">Coming soon &nbsp;·&nbsp; 6 min read</div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-cat">Geopolitics</div>
+      <div class="blog-title">Bangladesh's foreign policy balancing act — India, China & the new multipolar order</div>
+      <div class="blog-excerpt">Analyzing Dhaka's strategic hedging between major powers and what small-state theory tells us about its options.</div>
+      <div class="blog-meta">Coming soon &nbsp;·&nbsp; 12 min read</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">© 2025 Ismam Abid &nbsp;·&nbsp; ismamabidone@gmail.com &nbsp;·&nbsp; Built with Next.js</div>
+</div>
+
+<script>
+const phrases = ["intelligent SaaS.","AI pipelines.","scalable systems.","Next.js apps.","the future."];
+let pi=0,ci=0,del=false;
+function type(){
+  const el=document.getElementById('typed');
+  if(!el)return;
+  const cur=phrases[pi];
+  if(!del){el.textContent=cur.slice(0,ci+1);ci++;if(ci===cur.length){del=true;setTimeout(type,1800);return;}}
+  else{el.textContent=cur.slice(0,ci-1);ci--;if(ci===0){del=false;pi=(pi+1)%phrases.length;}}
+  setTimeout(type,del?55:95);
 }
+setTimeout(type,600);
+
+function scrollTo(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function filterProj(cat,btn){
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.proj-card').forEach(c=>{
+    if(cat==='all'||c.dataset.cat===cat){c.classList.remove('hidden');}
+    else{c.classList.add('hidden');}
+  });
+}
+
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      if(e.target.id==='skills'||e.target.contains(document.getElementById('skills-grid'))){
+        animateBars();
+      }
+    }
+  });
+},{threshold:0.12});
+document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+let barsAnimated=false;
+function animateBars(){
+  if(barsAnimated)return;
+  barsAnimated=true;
+  document.querySelectorAll('.bar-fill').forEach((b,i)=>{
+    setTimeout(()=>{b.style.width=b.dataset.w+'%';},i*80);
+  });
+}
+
+const skillsEl=document.getElementById('skills');
+const skillsOb=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)animateBars();});
+},{threshold:0.2});
+if(skillsEl)skillsOb.observe(skillsEl);
+</script>
