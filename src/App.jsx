@@ -1,40 +1,36 @@
-import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Projects from './pages/Projects';
-// File: src/App.jsx (or src/App.js)
-
 import { HashRouter, Routes, Route } from 'react-router-dom';
 
-// Import your page components
-import ProfessionalHome from './ProfessionalHome';
-import Projects from './Projects';
-import Contact from './Contact';
+// Import your components and pages
+// Make sure these paths match your actual folder structure!
+import Navbar from './components/Navbar';
+import ProfessionalHome from './pages/ProfessionalHome'; // or './ProfessionalHome'
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
 
 export default function App() {
   return (
-    {/* 
-      If your GitHub repo is named "my-website", change this line to:
-      <HashRouter basename="/my-website">
-    */}
+    /* If your GitHub repo is named "portfolio", you can add:
+      <HashRouter basename="/portfolio"> 
+    */
     <HashRouter>
-      <Routes>
-        {/* The Route paths tell React which component to load for which URL */}
-        <Route path="/" element={<ProfessionalHome />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      {/* This wrapper ensures the app takes up the full screen 
+        and works perfectly with the global CSS theme variables 
+      */}
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        
+        {/* Global Navbar - stays fixed across all pages */}
+        <Navbar />
+        
+        {/* Page Content area */}
+        <main style={{ flexGrow: 1 }}>
+          <Routes>
+            <Route path="/" element={<ProfessionalHome />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
+
+      </div>
     </HashRouter>
-  );
-}
-export default function App() {
-  return (
-    <div style={{ backgroundColor: 'transparent', minHeight: '100vh' }}>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<Projects />} />
-      </Routes>
-    </div>
   );
 }
