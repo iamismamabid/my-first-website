@@ -22,11 +22,10 @@ export default function App() {
         
         {/* Page Content area */}
         <main style={{ flexGrow: 1 }}>
-          <Routes>
-            <Route path="/" element={<ProfessionalHome />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
+        <Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="*" element={<Home />} /> {/* fallback */}
+</Routes>
         </main>
 
       </div>
