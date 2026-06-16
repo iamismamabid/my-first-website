@@ -1,5 +1,4 @@
 'use client'; // This tells Next.js this component runs on the browser
-
 import { useEffect, useState } from 'react';
 
 export default function ThemeToggle() {
