@@ -5,64 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ismam Abid | Software Engineer</title>
 <style>
-  /* =========================================
-     MASTER THEME VARIABLES
-     ========================================= */
-  :root, [data-theme="dark"] {
-    --bg-main: #030303; 
-    --text-primary: #fafafa;
-    --text-secondary: #a1a1aa;
-    --accent-color: #8b5cf6; 
-    --accent-glow: rgba(139, 92, 246, 0.15);
-    --surface-bg: rgba(20, 20, 22, 0.5);
-    --border-subtle: rgba(255, 255, 255, 0.05);
-    --border-highlight: rgba(139, 92, 246, 0.4);
-    --bg-gradient-start: rgba(28, 28, 36, 1);
-    --bg-gradient-end: rgba(3, 3, 3, 1);
-  }
-
-  [data-theme="light"] {
-    --bg-main: #f8fafc;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --accent-color: #7c3aed; 
-    --accent-glow: rgba(124, 58, 237, 0.15);
-    --surface-bg: rgba(255, 255, 255, 0.6);
-    --border-subtle: rgba(0, 0, 0, 0.08);
-    --border-highlight: rgba(124, 58, 237, 0.4);
-    --bg-gradient-start: rgba(243, 244, 246, 1);
-    --bg-gradient-end: rgba(248, 250, 252, 1);
-  }
-
+:root, [data-theme="dark"] {
+  --bg-main: #030303; 
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --accent-color: #8b5cf6; 
+  --accent-glow: rgba(139, 92, 246, 0.15);
+  --surface-bg: rgba(20, 20, 22, 0.5);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-highlight: rgba(139, 92, 246, 0.4);
+  --bg-gradient-start: rgba(28, 28, 36, 1);
+  --bg-gradient-end: rgba(3, 3, 3, 1);
+}
+ [data-theme="light"] {
+  --bg-main: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-color: #7c3aed; 
+  --accent-glow: rgba(124, 58, 237, 0.15);
+  --surface-bg: rgba(255, 255, 255, 0.6);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-highlight: rgba(124, 58, 237, 0.4);
+  --bg-gradient-start: rgba(243, 244, 246, 1);
+  --bg-gradient-end: rgba(248, 250, 252, 1);
+}
   /* =========================================
      BASE STYLES & LAYOUT
      ========================================= */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-image: radial-gradient(circle at 50% 0%, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 70%);
-    background-attachment: fixed;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    -webkit-font-smoothing: antialiased;
-  }
+  *  { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-image: radial-gradient(circle at 50% 0%, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 70%);
+  background-attachment: fixed;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
 
   .pf { overflow: hidden; }
 
-  /* Navigation */
-  .nav-wrap { padding: 1rem 4%; position: sticky; top: 0; z-index: 50; }
-  .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; background: var(--surface-bg); border: 1px solid var(--border-subtle); border-radius: 18px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 30px rgba(0,0,0,0.1); transition: all 0.3s ease;}
-  .logo { font-weight: 800; letter-spacing: -.05em; font-size: 1.25rem; }
-  .logo span { color: var(--accent-color); }
-  .nav-links { display: flex; gap: 1.5rem; }
-  .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--text-primary); }
-  .status { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.6); }
+  .pf { overflow: hidden; }
 
-  section { padding: 5rem 4%; max-width: 1100px; margin: 0 auto; }
+/* Navigation */
+.nav-wrap { padding: 1rem 4%; position: sticky; top: 0; z-index: 50; }
+.nav { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0.8rem 1.5rem; background: var(--surface-bg); border: 1px solid var(--border-subtle); border-radius: 18px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 30px rgba(0,0,0,0.1); transition: all 0.3s ease;}
+.logo { font-weight: 800; letter-spacing: -.05em; font-size: 1.25rem; }
+.logo span { color: var(--accent-color); }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text-primary); }
+.status { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.6); }
+
+section { padding: 5rem 4%; max-width: 1100px; margin: 0 auto; }
+
 
   /* Hero Elements */
   .pill { display: inline-flex; align-items: center; gap: 12px; padding: 0.5rem 1.25rem; background: var(--surface-bg); border: 1px solid var(--border-subtle); border-radius: 999px; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 2rem; box-shadow: inset 0 0 20px rgba(255,255,255,0.02); }
@@ -194,7 +192,8 @@
     <div class="proj-card" data-cat="ai">
       <span class="proj-tag tag-ai">AI / SaaS</span>
       <div class="proj-title">WordSearchStudio</div>
-      <div class="proj-desc">Canvas-based word search puzzle generator with drag interaction, AI-assisted word seeding, and bulk export for KDP low-content books.</div>
+      <div class="proj-desc">Canvas-based word search puzzle genera
+        tor with drag interaction, AI-assisted word seeding, and bulk export for KDP low-content books.</div>
       <div class="proj-stack"><span class="stack-pill">React</span><span class="stack-pill">Canvas API</span><span class="stack-pill">MongoDB</span><span class="stack-pill">Node.js</span></div>
     </div>
     <div class="proj-card" data-cat="fs">
