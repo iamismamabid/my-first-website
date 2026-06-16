@@ -1,34 +1,17 @@
-// OLD (broken - files don't exist)
-import ProfessionalHome from './pages/ProfessionalHome';
-import Projects from './pages/Projects';
-import Contact from './pages/Contact';
-
-// NEW (use what you have)
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Projects from './pages/Projects';
 
 export default function App() {
   return (
-    /* If your GitHub repo is named "portfolio", you can add:
-      <HashRouter basename="/portfolio"> 
-    */
-    <HashRouter>
-      {/* This wrapper ensures the app takes up the full screen 
-        and works perfectly with the global CSS theme variables 
-      */}
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        
-        {/* Global Navbar - stays fixed across all pages */}
-        <Navbar />
-        
-        {/* Page Content area */}
-        <main style={{ flexGrow: 1 }}>
-        <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="*" element={<Home />} /> {/* fallback */}
-</Routes>
-        </main>
-
-      </div>
-    </HashRouter>
+    <div style={{ backgroundColor: 'transparent', minHeight: '100vh' }}>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="*" element={<div style={{ textAlign: 'center', padding: '2rem' }}><h2>404 - Page Not Found</h2></div>} />
+      </Routes>
+    </div>
   );
 }
