@@ -1,11 +1,10 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
-
-// Import your components and pages
-// Make sure these paths match your actual folder structure!
-import Navbar from './components/Navbar';
-import ProfessionalHome from './pages/ProfessionalHome'; // or './ProfessionalHome'
+// OLD (broken - files don't exist)
+import ProfessionalHome from './pages/ProfessionalHome';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
+
+// NEW (use what you have)
+import Home from './pages/Home';
 
 export default function App() {
   return (
